@@ -1,0 +1,317 @@
+.left_aside {
+    position: fixed;
+    width: 100%;
+    max-width: var(--left_aside);
+    height: 100vh;
+    top: 0;
+    left: 0;
+    border-right: 1px solid var(--border_color);
+    background: var(--surface_bg);
+    transition: $transition;
+    z-index: 10000;
+    overflow: hidden;
+
+    @media (max-width: $left_aside_close) {
+        left: var(--left_aside_m);
+
+        &.active {
+            left: 0;
+            // width: 100%;
+        }
+    }
+
+    @media (max-width: 320px) {
+        border-right: none;
+    }
+
+    .left_had {
+        height: var(--chat_header_height);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: var(--header_shadow);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+
+        .src_w { 
+            display: flex;
+            // justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-left: 5px;
+            margin-right: 5px;
+            flex: 1;
+
+            i {
+                pointer-events: none;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: 15px;
+                color: var(--txt_on_light);
+                transition: all 0.1s ease-in;
+            }
+
+            .c_src {
+                padding: 10px 5px;
+                background: transparent;
+                font-size: 14px;
+                margin: 0 5px;
+                transition: $transition;
+                transform: scale(0);
+                width: 45px;
+                position: absolute;
+                right: 0;
+                transform-origin: right;
+                color: var(--txt_on_light);
+            }
+
+            .c_aside {
+                padding: 10px 5px;
+                background: transparent;
+                font-size: 16px;
+                transition: $transition;
+                width: 35px;
+                position: absolute;
+                right: 0;
+                transform-origin: right;
+                color: var(--txt_on_light);
+                transform: scale(0);
+
+                @media (max-width: $left_aside_close) {
+                    transform: scale(1);
+                }
+            }
+
+            &.active {
+                i {
+                    left: 10px;
+                }
+                .c_aside {
+                    transform: scale(0);
+                }
+            }
+
+            .src {
+                flex: 1;
+                background: transparent;
+                padding: 10px;
+                padding-left: 40px;
+                background: var(--l_gr);
+                transition: $transition;
+                border-radius: 30px;
+                color: var(--txt_on_light);
+
+                @media (max-width: $left_aside_close) {
+                    margin-right: 30px;
+                }
+
+                @media (max-width: 300px) {
+                    max-width: 216px;
+                }
+
+                &.active {
+                    margin-right: 50px;
+                    padding-left: 33px;
+                    &+.c_src {
+                        transform: scale(1);
+                    }
+                }
+            }
+        }
+
+        .src:focus .c_src {
+            display: block;
+        }
+    }
+
+    .aside_box {
+        width: 100%;
+        max-width: var(--left_aside);
+        height: calc(100vh - var(--chat_header_height));
+        overflow-y: hidden;
+
+        .result_box {
+            width: calc(100% - 1px);
+            height: 100%;
+            background: var(--surface_bg);
+            // border-top: 1px solid var(--border_color);
+            z-index: 1000;
+            transition: $transition;
+            display: none;
+            pointer-events: none;
+            overflow-y: auto;
+            .pic_a_date {
+                display: flex;
+                position: sticky;
+                top: 0;
+                // background: var(--surface_bg);
+                box-shadow: 0 0 4px 0 #3332;
+                margin: 0 -1px;
+                z-index: 9991;
+                animation: zoom_up 0.2s ease-in-out;
+                justify-content: center;
+                // border: 1px solid var(--border_color);
+                background: var(--comment-background);
+                input {
+                    background: transparent;
+                    width: 70%;
+                    padding: 10px;
+                    color: var(--txt_on_light);
+                    :-moz-placeholder {
+                        color: var(--txt_on_light);
+                    }
+                }
+                .date_p_and_go {
+                    display: flex;
+                    align-items: center;
+                    user-select: none;
+                    cursor: pointer;
+                    padding: 10px;
+                    color: var(--txt_on_light);
+                } 
+            }
+            // position: absolute;
+            &.active {
+                display: block;
+                pointer-events: initial;
+
+                &+.chat_id_box {
+                    top: calc(var(--chat_header_height) * 1.5);
+                    pointer-events: none;
+                    opacity: 0;
+                }
+            }
+
+            .result {
+                display: flex;
+                flex-direction: column;
+                padding: 20px 8px;
+
+                li {
+                    display: flex;
+                    margin-top: -1px;
+                    padding: 10px 8px;
+                    color: var(--txt_on_light);
+                    border-radius: 8px;
+                    transition: $transition;
+                    animation: zoom_up 0.3s ease-in-out;
+                    cursor: pointer;
+
+                    &:hover,
+                    &.active {
+                        background: var(--hover_bg);
+                    }
+
+                    .profile {
+                        display: flex;
+
+                        img {
+                            width: 40px;
+                            height: 40px;
+                            border-radius: 50%;
+                        }
+                    }
+
+                    .inf {
+                        flex: 1;
+                        padding-left: 5px;
+
+                        .name {
+                            font-size: 16px;
+
+                            .and {
+                                color: #EC407A;
+                            }
+                        }
+
+                        .match {
+                            font-size: 14px;
+                        }
+                    }
+                }
+                .result_np {
+                    display: flex;
+                    background: var(--l_gr);
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 8px;
+                    border-radius: 4px;
+                    .nl {
+                        margin: 0;
+                        padding: 8px 10px;
+                    }
+                }
+            }
+        }
+
+        .chat_id_box {
+            padding: 30px 8px;
+            width: 100%;
+            max-width: var(--left_aside);
+            height: calc(100vh - var(--chat_header_height));
+            overflow-y: auto;
+            position: absolute;
+            transition: $transition;
+            top: var(--chat_header_height);
+            pointer-events: initial;
+            opacity: 1;
+
+            li {
+                a {
+                    display: flex;
+                    align-items: center;
+                    border-radius: 8px;
+                    padding: 8px;
+                    transition: all 0.2s ease-in-out;
+                    // border-bottom: 1px solid var(--border_color);
+
+                    .id_profile {
+                        width: 80px;
+                        height: 56px;
+                        display: flex;
+                        position: relative;
+
+                        img {
+                            width: 50px;
+                            height: 50px;
+                            object-fit: cover;
+                            border-radius: 50%;
+                            position: absolute;
+                            border: 2px solid var(--l_gr);
+
+                            &:nth-child(2) {
+                                right: 0px;
+                            }
+                        }
+                    }
+
+                    .in_inf {
+                        flex: 1;
+                        padding-left: 10px;
+                        color: var(--txt_on_light);
+
+                        .id_name {
+                            font-weight: 500;
+                            font-size: 16px;
+                        }
+
+                        .inf {
+                            font-size: 14px;
+                        }
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                        background: var(--l_gr);
+                    }
+
+                    &.active {
+                        background: var(--hover_bg);
+                    }
+                }
+            }
+        }
+    }
+}
