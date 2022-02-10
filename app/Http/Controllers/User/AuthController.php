@@ -30,7 +30,7 @@ class AuthController extends Controller
         ]);
         return response()->json($user);
     }
-    public function login(Request $request) {
+    public function login(Request $request) { 
         $validator = Validator::make($request->all(), [
             'password' => 'required|min:6',
             'email' => 'email|required'
@@ -43,15 +43,25 @@ class AuthController extends Controller
             ], 422);
         }
         $cradintial = request(['email', 'password']);
-        if (!Auth::attempt($cradintial)) {
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
             return response()->json([
                 'type' => 'error',
-                'message' => 'Phone Number Or Password Not Match'
-            ], 500);
+                'message' => 'Email or password not metch'
+            ], 403);
         }
-        $user = User::where('email', $request->email)->first();
+        if (!Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'type' => 'error',
+                'message' => 'Email or password not metch'
+            ], 403);
+        }
         $token = $user->createToken('AuthToken');
-        return response()->json(['token' => $token->plainTextToken]);
+        return response()->json([
+            'user' => $user,
+            'message' => 'Login Successfull',
+            'token' => $token->plainTextToken
+        ]);
         // 123456
     }
     public function logout(Request $request) {
